@@ -1,17 +1,15 @@
-# Machine-Predictive-Maintenance-Classification
-Machine Predictive Maintenance Classification Dataset
-Since real predictive maintenance datasets are generally difficult to obtain and in particular difficult to publish, we present and provide a synthetic dataset that reflects real predictive maintenance encountered in the industry to the best of our knowledge.
+Predictive Maintenance Classification using PyTorch MLP
 
-The dataset consists of 10 000 data points stored as rows with 14 features in columns
+This repository contains a PyTorch implementation of a Multilayer Perceptron (MLP) for predictive maintenance classification. The model is designed to predict the likelihood of a machine undergoing maintenance based on input features from a CSV dataset.
 
-UID: unique identifier ranging from 1 to 10000
-productID: consisting of a letter L, M, or H for low (50% of all products), medium (30%), and high (20%) as product quality variants and a variant-specific serial number
-air temperature [K]: generated using a random walk process later normalized to a standard deviation of 2 K around 300 K
-process temperature [K]: generated using a random walk process normalized to a standard deviation of 1 K, added to the air temperature plus 10 K.
-rotational speed [rpm]: calculated from powepower of 2860 W, overlaid with a normally distributed noise
-torque [Nm]: torque values are normally distributed around 40 Nm with an Ïƒ = 10 Nm and no negative values.
-tool wear [min]: The quality variants H/M/L add 5/3/2 minutes of tool wear to the used tool in the process. and a
-'machine failure' label that indicates, whether the machine has failed in this particular data point for any of the following failure modes are true.
-Important : There are two Targets - Do not make the mistake of using one of them as feature, as it will lead to leakage.
-Target : Failure or Not
-Failure Type : Type of Failure
+Dataset Definition
+The dataset is loaded and preprocessed using the CSVDataset class. The input CSV file should contain features in columns 3 to 8 and the target labels in the last column. The target labels are label-encoded using the LabelEncoder. The dataset can be split into training and testing sets using the get_splits method.
+
+MLP Architecture
+The MLP model is defined in the MLP class, which inherits from PyTorch's Module. The architecture consists of three fully connected hidden layers with ReLU activation functions. The number of neurons in each layer is 10, 8, and 2, respectively. Dropout is applied after the first hidden layer to prevent overfitting. The final layer uses the softmax activation function for multi-class classification.
+
+Training the Model
+The training process is implemented in the train_model function. It uses the Adam optimizer with a learning rate of 0.01 and L2 regularization. The training loop runs for a specified number of epochs (default is 100), and early stopping is employed to prevent overfitting. The training loss per epoch is stored for later analysis.
+
+Evaluation
+The evaluate_model function calculates the accuracy of the trained model on the test set. Additionally, a predict function is provided to make predictions on new data.
